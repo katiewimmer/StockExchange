@@ -13,17 +13,17 @@ public class StockExchange
 	
 	public String processQuote(String symbol)
 	{
-		return stocks.get(symbol); // add .getQuote() method that is written in Stock
+		return stocks.get(symbol).getQuote();
 	}
 	
 	public void addStock(String symbol, String name, double price)
 	{
-		Stock stock = new Stock(symbol, name, price); // will need to match constructor parameters in Stock
+		Stock stock = new Stock(symbol, name, price);
 		stocks.put(symbol, stock);
 	}
 	
 	public void addOrder(TradeOrder recipient)
 	{
-		stocks.get(recipient.getStockSymbol()).addOrder(recipient);
+		stocks.get(recipient.getStockSymbol()).placeOrder(recipient);
 	}
 }
