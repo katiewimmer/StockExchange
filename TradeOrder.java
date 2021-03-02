@@ -3,7 +3,7 @@ public class TradeOrder
 {
   private Trader trader;
   private String stockSymbol;
-  private boolean buyingOrder, marketPrice;
+  private boolean buying, marketPrice;
   private int numShares;
   private double price;
   
@@ -11,7 +11,7 @@ public class TradeOrder
   {
     trader = t;
     stockSymbol = s;
-    buyingOrder = b;
+    buying = b;
     marketPrice = m;
     price = p;
   }
@@ -29,7 +29,7 @@ public class TradeOrder
   //if false, is selling
   public boolean isBuying()
   {
-    return buyingOrder;
+    return buying;
   }
   
   //if false, is limit price
