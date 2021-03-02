@@ -1,0 +1,37 @@
+import java.util.Comparator;
+
+public class PriceComparator implements Comparator<TradeOrder>
+{
+	private boolean ascending;
+	
+	public PriceComparator(boolean order)
+	{
+		ascending = order;
+	}
+	
+	public PriceComparator()
+	{
+		ascending = true;
+	}
+	
+	public int compare(TradeOrder one, TradeOrder two)
+	{
+		if(one.isMarketPrice() && two.isMarketPrice())
+			return 0;
+		
+		if(one.isMarketPrice() && !two.isMarketPrice())
+			return -1;
+		
+		if(two.isMarketPrice() && !one.isMarketPrice())
+		{
+			return 1;
+		}
+		
+		if(ascending)
+			return (int) (one.getPrice() - two.getPrice() * 100);
+		
+		return (int) (-one.getPrice() + (two.getPrice() * 100));
+	}
+	
+	
+}
