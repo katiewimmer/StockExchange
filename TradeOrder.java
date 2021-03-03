@@ -1,54 +1,85 @@
 /**
-Provides a constructor for creating a TradeOrder object with parameters
-for the trader, symbol, buying, market price and price
-Includes several accessor methods for each object characteristic
-Authors: SS, KW, RM
-*/
+ * This class represents a "data carrier" object used by other objects to pass 
+ * the data about a trade order to each other. The fields and accessor methods 
+ * correspond to the data entry fields in TraderWindow.java.
+ * 
+ * CSC630 Period 8 Ms. Litvin
+ * Date: March 4, 2021
+ * Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
+ */
 public class TradeOrder
 {
   private Trader trader;
-  private String stockSymbol;
-  private boolean buying, marketPrice;
+  private String symbol;
+  private boolean buyOrder, marketOrder;
   private int numShares;
   private double price;
   
-  public TradeOrder(Trader t, String s, boolean b, boolean m, int n, double p) //constructor
+  /**
+   * Initializes a TradeOrder with answers to the following questions:
+   *    Who is the trader placing this order?
+   *    What stock is the order being place on?
+   *    Is the trader looking to buy or sell?
+   *    Is the order a market order or a limit order?
+   *    How many shares does the trader wish to buy/sell?
+   *    What price is the trader offering?
+   */
+  public TradeOrder(Trader trader, String symbol, boolean buyOrder,
+      boolean marketOrder, int numShares, double price)
   {
-    trader = t; //sets each parameter to a field in the TradeOrder class
-    stockSymbol = s;
-    buying = b;
-    marketPrice = m;
-    price = p;
+    this.trader = trader;
+    this.symbol = symbol;
+    this.buyOrder = buyOrder;
+    this.marketOrder = marketOrder;
+    this.numShares = numShares;
+    this.price = price;
   }
   
-  public Trader getTrader() //accessor method for trader
+  /**
+   * Returns the trader placing the order. 
+   */
+  public Trader getTrader()
   {
     return trader;
   }
   
-  public String getStockSymbol() //accessor method for stock symbol
+  /**
+   * Returns the symbol of the stock the order is being placed on.
+   */
+  public String getSymbol()
   {
-    return stockSymbol;
+    return symbol;
   }
   
-  public boolean isBuying()  
+  /**
+   * Returns true if the trader wishes to buy, false if they wish to sell. 
+   */  
+  public boolean isBuying()
   {
-    return buying; //if false, is selling
+    return buyOrder;
   }
   
-
+  /**
+   * Returns true if the order is a market order, false if it is a limit order. 
+   */  
   public boolean isMarketPrice()
   {
-    return marketPrice;  //if false, is limit price
+    return marketOrder;
   }
   
-  public int getNumShares() //accessor methods for number of shares
+  /**
+   * Returns the number of shares the trader wishes to buy/sell. 
+   */  
+  public int getNumShares()
   {
     return numShares;
   }
   
-  public double getPrice() //accessor method for price
+  /**
+   * Returns the offered price. 
+   */ 
+  public double getPrice()
   {
     return price;
-  } 
+  }
 }
