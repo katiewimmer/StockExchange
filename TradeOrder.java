@@ -17,8 +17,8 @@ public class TradeOrder
   
   /**
    * Initializes a TradeOrder with answers to the following questions:
-   *    Who is the trader placing this order?
-   *    What stock is the order being place on?
+   *    Which trader is placing the order?
+   *    What stock is the order being placed on?
    *    Is the trader looking to buy or sell?
    *    Is the order a market order or a limit order?
    *    How many shares does the trader wish to buy/sell?
