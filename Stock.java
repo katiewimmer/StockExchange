@@ -101,7 +101,7 @@ public class Stock
     Trader seller = sell.getTrader();
 
     // Calculate the price
-    double price = 100;
+    double price;
 
     if (!(buy.isMarketPrice() || sell.isMarketPrice()) && buy.getPrice() >= sell.getPrice())
       price = sell.getPrice();
