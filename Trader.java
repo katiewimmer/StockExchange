@@ -7,7 +7,7 @@
 
 import java.util.*;
 
-public class Trader 
+public class Trader implements Comparable<Trader>
 {
 
     private Brokerage brokerage;
@@ -61,8 +61,7 @@ public class Trader
     }
 
     // Mailbox
-    /**
-     * Receives mail
+     /** Receives mail
      * @param mail
      */
     public void getMail(String mail)
@@ -93,6 +92,10 @@ public class Trader
         {
             window.showMessage(mailbox.remove());
         }
+    }
+    public int compareTo(Trader other)
+    {
+    	return this.getName().compareToIgnoreCase(other.getName());
     }
 
 }
