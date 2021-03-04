@@ -102,15 +102,13 @@ public class Stock
     {
       buyOrders.add(order);
       str += "Buy ";
-      if(!buyOrders.peek().isMarket())
-        bidMarketPrice = buyOrders.peek().getPrice();
+      bidMarketPrice = buyOrders.peek().getPrice();
     }
     else
     {
       sellOrders.add(order);
       str += "Sell ";
-      if(!sellOrders.peek().isMarket())
-        askMarketPrice = sellOrders.peek().getPrice();
+      askMarketPrice = sellOrders.peek().getPrice();
     }
 
     str += order.getSymbol() + " (" + this.companyName + ")" + "\n"
