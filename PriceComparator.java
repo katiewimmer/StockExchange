@@ -23,13 +23,13 @@ public class PriceComparator implements Comparator<TradeOrder>
   
   public int compare(TradeOrder one, TradeOrder two)
   {
-    if(one.isMarketPrice() && two.isMarketPrice()) //both are the market price
+    if(one.isMarket() && two.isMarket()) //both are the market price
       return 0; //equal
     
-    if(one.isMarketPrice() && !two.isMarketPrice()) //one is the market price and the other is the limit
+    if(one.isMarket() && !two.isMarket()) //one is the market price and the other is the limit
       return -1; //less than
     
-    if(two.isMarketPrice() && !one.isMarketPrice()) //two is the market price and the other is the limit
+    if(two.isMarket() && !one.isMarket()) //two is the market price and the other is the limit
     {
       return 1; //more than
     }
