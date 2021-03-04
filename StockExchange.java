@@ -1,35 +1,45 @@
 /**
-Provides a no-args constructor for adding a stock to the list of stocks
-and several methods for interacting with the stocks in the list of
-stocks
-Authors: KW, SS, RM
+ * This class keeps a HashMap of listed stocks, keyed by their symbols, 
+ * and relays quote requests and trade orders to them. 
+ * 
+ * CSC630 Period 8 Ms. Litvin
+ * Date: March 4, 2021
+ * Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
 */
 import java.util.Map;
 import java.util.HashMap;
 
-
 public class StockExchange 
 {
-	private HashMap<String, Stock> stocks;
-	
-	public StockExchange() //initializes a new stock to stocks list
-	{
-		stocks = new HashMap<String, Stock>();
-	}
-	 
-	public String processQuote(String symbol) //returns the quote of the stock associated with a certain symbol
-	{
-		return stocks.get(symbol).getQuote();
-	}
-	
-	public void addStock(String symbol, String name, double price) //adds a new stock with the given parameters to the list of stocks
-	{
-		Stock stock = new Stock(symbol, name, price); //creates new stock
-		stocks.put(symbol, stock); //adds it to the list
-	}
-	
-	public void addOrder(TradeOrder recipient) //places an order to a given recipient
-	{
-		stocks.get(recipient.getStockSymbol()).placeOrder(recipient); 
-	}
+ private Map<String, Stock> listedStocks;
+ 
+ /**
+  * Initializes a Map of listed stocks.
+  */
+ public StockExchange() 
+ {
+   listedStocks = new HashMap<String, Stock>();
+ }
+ 
+ /**
+  * Returns the quote of the listed stock associated with the given symbol.
+  */
+ public String processQuote(String symbol) 
+ {
+   return listedStocks.get(symbol).getQuote();
+ }
+ 
+ /**
+  * Creates and adds a new stock with a given symbol, name, and price to the Map of listed stocks.
+  */
+ public void listStock(String symbol, String name, double price) 
+ {
+   Stock stock = new Stock(symbol, name, price); //creates new stock
+   listedStocks.put(symbol, stock); //adds it to the list
+ }
+ 
+ public void addOrder(TradeOrder recipient) //places an order to a given recipient
+ {
+   listedStocks.get(recipient.getSymbol()).placeOrder(recipient); 
+ }
 }
