@@ -24,7 +24,7 @@ public class PriceComparator implements Comparator<TradeOrder>
     ascending = true;
   }
   
-   public int compare(TradeOrder one, TradeOrder two)
+  public int compare(TradeOrder one, TradeOrder two)
   {
     if(one.isMarket() && two.isMarket()) //both are the market price
       return 0; //equal
