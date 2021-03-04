@@ -2,7 +2,10 @@
  * Depicts a trader. Includes a constructer that accepts a brokerage, name, and password.
  * A trader can request quotes and place orders with the brokerage. It also receives
  * mail in the mailbox, and it can tell the TraderWindow to display the mail.
- * @author: Ryan Mai, Sima Shmuylovich, Katie Wimmer
+ *
+ * CSC630 Period 8 Ms. Litvin
+ * Date: March 4, 2021
+ * Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
  */
 
 import java.util.*;
