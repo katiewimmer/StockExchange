@@ -4,9 +4,7 @@
  * Receives quote requests and trade orders from traders and
  * relays them to StockExchange.
  * 
- * CSC630 Period 8 Ms. Litvin
- * Date: March 4, 2021
- * Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
+ * @author: Ryan Mai, Sima Shmuylovich, Katie Wimmer
  */
 
 import java.util.*;
@@ -90,7 +88,7 @@ public class Brokerage implements Login
         if(loggedInTraders.contains(traders.get(name))) 
             return -3;
         trader.openTraderWindow();
-        if(!trader.hasMail())
+        if(!trader.receiveMessages())
             trader.receiveMessages("Welcome to SafeTrade!");
         loggedInTraders.add(trader);
         return 0;

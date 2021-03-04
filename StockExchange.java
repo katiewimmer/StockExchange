@@ -24,14 +24,14 @@ public class StockExchange
  /**
   * Returns the quote of the listed stock associated with the given symbol.
   */
- public String processQuote(String symbol) 
+ public String processQuote(String symbol)
  {
-   Stock stock = listedStocks.get( symbol );
+   Stock stock = listedStocks.get(symbol);
    if (stock != null)
      return stock.getQuote();
    return symbol + " not found";
  }
- 
+
  /**
   * Creates and adds a new stock with a given symbol, name, and price to the Map of listed stocks.
   */

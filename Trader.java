@@ -2,10 +2,7 @@
  * Depicts a trader. Includes a constructer that accepts a brokerage, name, and password.
  * A trader can request quotes and place orders with the brokerage. It also receives
  * mail in the mailbox, and it can tell the TraderWindow to display the mail.
- *
- * CSC630 Period 8 Ms. Litvin
- * Date: March 4, 2021
- * Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
+ * @author: Ryan Mai, Sima Shmuylovich, Katie Wimmer
  */
 
 import java.util.*;
@@ -67,9 +64,9 @@ public class Trader implements Comparable<Trader>
      /** Receives mail
      * @param mail
      */
-    public void receiveMessages(String msg)
+    public void receiveMessages(String mail)
     {
-        mailbox.add(msg);
+        mailbox.add(mail);
         if(window != null)
         {
             while(!mailbox.isEmpty()) 
@@ -79,7 +76,7 @@ public class Trader implements Comparable<Trader>
         }
     }
 
-    public boolean hasMail()
+    public boolean receiveMessages()
     {
         return !mailbox.isEmpty();
     }
@@ -96,11 +93,9 @@ public class Trader implements Comparable<Trader>
             window.showMessage(mailbox.remove());
         }
     }
-
-    @Override
     public int compareTo(Trader other)
     {
-    	return this.getName().compareToIgnoreCase(other.getName());
+      return this.getName().compareToIgnoreCase(other.getName());
     }
 
 }

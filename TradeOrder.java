@@ -1,9 +1,3 @@
-/**
-
-CSC630 Period 8 Ms. Litvin
-Date: March 4, 2021
-Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
-*/
 public class TradeOrder
 {
   private Trader trader;
@@ -18,6 +12,7 @@ public class TradeOrder
     stockSymbol = s;
     buying = b;
     marketPrice = m;
+    numShares = n;
     price = p;
   }
   
