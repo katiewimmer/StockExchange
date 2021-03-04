@@ -1,4 +1,3 @@
-
 /**
  * This class represents a Stock object. A Stick object holds the stock symbol, the 
  * company name, the lowest and highest sell prices, and the volume for the "day." 
@@ -78,7 +77,7 @@ public class Stock
       str += "Sell ";
     }
 
-    str += order.getSymbol() + " (" + this.companyName + ")" + "\n"
+    str += order.getStockSymbol() + " (" + this.companyName + ")" + "\n"
         + order.getNumShares() + " shares at ";
 
     if (!order.isMarketPrice())
