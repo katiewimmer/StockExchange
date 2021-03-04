@@ -85,7 +85,7 @@ public class Stock
     else
       str += "market";
 
-    order.getTrader().getMail(str);
+    order.getTrader().receiveMessages(str);
     executeOrders();
   }
 
@@ -142,10 +142,10 @@ public class Stock
     latestPrice = price;
 
     // Send a message to the two traders involved in the exchange
-    buyer.getMail("You bought: " + sharesExchanged + " " + stockSymbol + " at "
+    buyer.receiveMessages("You bought: " + sharesExchanged + " " + stockSymbol + " at "
         + money.format(price) + " amt "
         + money.format(sharesExchanged * price));
-    seller.getMail("You sold: " + sharesExchanged + " " + stockSymbol + " at "
+    seller.receiveMessages("You sold: " + sharesExchanged + " " + stockSymbol + " at "
         + money.format(price) + " amt "
         + money.format(sharesExchanged * price));
 
