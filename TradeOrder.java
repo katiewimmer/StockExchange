@@ -1,3 +1,12 @@
+/**
+* Provides a constructor for creating a TradeOrder,
+* several accessor methods, and a mutator method
+*
+* CSC630 Period 8 Ms. Litvin
+* Date: March 4, 2021
+* Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
+*/
+
 public class TradeOrder
 {
   private Trader trader;
@@ -8,47 +17,45 @@ public class TradeOrder
   
   public TradeOrder(Trader trader, String symbol, boolean buyOrder, boolean marketOrder, int numShares, double price)
   {
-    this.trader = trader;
-    this.symbol = symbol;
-    this.buyOrder = buyOrder;
-    this.marketOrder = marketOrder;
-    this.numShares = numShares;
-    this.price = price;
+    this.trader = trader; //trader associated with the order
+    this.symbol = symbol; // symbol for the order
+    this.buyOrder = buyOrder; // whether or not the trader is buying or selling
+    this.marketOrder = marketOrder; // whether or not the price is the market or limit price
+    this.numShares = numShares; // number of shares in the order
+    this.price = price; // price at which each stock is being sold
   }
   
-  public Trader getTrader()
+  public Trader getTrader() // accessor method for trader
   {
     return trader;
   }
   
-  public String getSymbol()
+  public String getSymbol() // accessor method for symbol
   {
     return symbol;
   }
   
-  //if false, is selling
-  public boolean isBuy()
+  public boolean isBuy() // if true, the trader is buying, if false, the trader is selling
   {
     return buyOrder;
   }
   
-  //if false, is limit price
-  public boolean isMarket()
+  public boolean isMarket()// if true, the price is the market price, if false, the price is the limit price
   {
     return marketOrder;
   }
   
-  public int getNumShares()
+  public int getNumShares() // accessor method for number of share
   {
     return numShares;
   }
   
-  public double getPrice()
+  public double getPrice() // accessor method for price
   {
     return price;
   } 
   
-  public void subtractShares(int shares)
+  public void subtractShares(int shares) // mutator method to substract a certain number of shares from the total
   {
     numShares -= shares;
   }
