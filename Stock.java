@@ -121,6 +121,9 @@ public class Stock
       sharesExchanged = buy.getNumShares();
     else
       sharesExchanged = sell.getNumShares();
+    
+    buy.subtractShares(sharesExchanged);
+    sell.subtractShares(sharesExchanged);
 
     if (buy.getNumShares() == 0) // The buyer has bought all the stocks they are willing to buy
       buyOrders.remove(buy);
