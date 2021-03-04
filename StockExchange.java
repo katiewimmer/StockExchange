@@ -26,7 +26,10 @@ public class StockExchange
   */
  public String processQuote(String symbol) 
  {
-   return listedStocks.get(symbol).getQuote();
+   Stock stock = listedStocks.get( symbol );
+   if (stock != null)
+     return stock.getQuote();
+   return symbol + " not found";
  }
  
  /**
