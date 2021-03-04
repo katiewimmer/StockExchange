@@ -34,7 +34,7 @@ public class Brokerage implements Login
      */
     public void getQuote(String symbol, Trader trader) 
     {
-        stockExchange.processQuote(symbol);
+        trader.getMail(stockExchange.processQuote(symbol));
     }
 
     /**
