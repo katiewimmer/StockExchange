@@ -41,21 +41,21 @@ public class Stock
 
   public String getQuote()
   {
-    String quote = companyName + " (" + stockSymbol + ")\nPrice: " + latestPrice
-        + " hi: " + highPrice + " lo: " + lowPrice + " vol:" + volume + " ";
+    String quote = companyName + " (" + stockSymbol + ")\nPrice: " + money.format(latestPrice)
+        + " hi: " + money.format(highPrice) + " lo: " + money.format(lowPrice) + " vol: " + volume + " ";
 
     String ask = "Ask: none";
     String bid = "Bid: none";
 
     if (!sellOrders.isEmpty())
     {
-      ask = "Ask: " + sellOrders.peek().getPrice() + " size: "
+      ask = "Ask: " + money.format(latestPrice) + " size: "
           + sellOrders.peek().getNumShares();
     }
 
     if (!buyOrders.isEmpty())
     {
-      bid = "Bid: " + buyOrders.peek().getPrice() + " size: "
+      bid = "Bid: " + money.format(latestPrice) + " size: "
           + buyOrders.peek().getNumShares();
     }
 
@@ -81,7 +81,7 @@ public class Stock
         + order.getNumShares() + " shares at ";
 
     if (!order.isMarketPrice())
-      str += order.getPrice();
+      str += money.format(order.getPrice());
     else
       str += "market";
 
@@ -101,7 +101,7 @@ public class Stock
     Trader seller = sell.getTrader();
 
     // Calculate the price
-    double price;
+    double price = 100;
 
     if (!(buy.isMarketPrice() || sell.isMarketPrice()) && buy.getPrice() >= sell.getPrice())
       price = sell.getPrice();
