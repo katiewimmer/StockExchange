@@ -40,6 +40,6 @@ public class StockExchange
  
  public void addOrder(TradeOrder recipient) //places an order to a given recipient
  {
-   listedStocks.get(recipient.getSymbol()).placeOrder(recipient); 
+   listedStocks.get(recipient.getStockSymbol()).placeOrder(recipient); 
  }
 }
