@@ -10,6 +10,8 @@
  * 
  * Citation: Decimal Format information found at 
  * https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html
+ * 
+ * Citation: Spoke with Yury Shmuylovich on 03/03/21 about what "market" means. 
 */
 import java.text.DecimalFormat;
 import java.util.PriorityQueue;
@@ -20,48 +22,78 @@ public class Stock
   public static DecimalFormat money = new DecimalFormat("0.00");
 
   private String stockSymbol, companyName;
-  private double lowPrice, highPrice, latestPrice;
+  private double loPrice, hiPrice, latestSalePrice, askMarketPrice, bidMarketPrice;
   private int volume;
   private PriorityQueue<TradeOrder> buyOrders, sellOrders;
 
   /**
-   * 
+   * Initializes a stock and its components. 
    */
   public Stock(String symbol, String name, double price)
   {
     stockSymbol = symbol;
     companyName = name;
-    lowPrice = price;
-    highPrice = price;
-    latestPrice = price;
+    
+    // because there are no sales yet for this stock, the following 4 variables are 
+    // initialized to the given price and the volume is initialized to 0
+    loPrice = price;
+    hiPrice = price;
+    latestSalePrice = price;
+    askMarketPrice = price;
+    bidMarketPrice = price;
     volume = 0;
-    buyOrders = new PriorityQueue<TradeOrder>(new PriceComparator());
-    sellOrders = new PriorityQueue<TradeOrder>(new PriceComparator(false));
+    
+    // initialize the buying queue in ascending order
+    buyOrders = new PriorityQueue<TradeOrder>(new PriceComparator()); 
+    // initialize the selling queue in descending order
+    sellOrders = new PriorityQueue<TradeOrder>(new PriceComparator(false)); 
   }
 
+  /**
+   * Returns a formatted stock quote with information on the following: company name, 
+   * stock symbol, price of last sale for this stock, price of most expensive sale 
+   * for this stock, price of least expensive sale for this stock, how many shares of 
+   * the stock were sold, the market price in terms of asking and bidding. 
+   */
   public String getQuote()
   {
-    String quote = companyName + " (" + stockSymbol + ")\nPrice: " + money.format(latestPrice)
-        + " hi: " + money.format(highPrice) + " lo: " + money.format(lowPrice) + " vol: " + volume + " ";
+    String quote = companyName + " (" + stockSymbol + ")\nPrice: " +
+        money.format(latestSalePrice) + " hi: " + money.format(hiPrice) + 
+        " lo: " + money.format(loPrice) + " vol: " + volume + "\n";
 
+    // Market for selling 
     String ask = "Ask: none";
-    String bid = "Bid: none";
-
     if (!sellOrders.isEmpty())
-    {
-      ask = "Ask: " + money.format(latestPrice) + " size: "
-          + sellOrders.peek().getNumShares();
+    { 
+      if(sellOrders.peek().isMarket())
+        ask = "Ask: market size: " + sellOrders.peek().getNumShares();
+      else
+      {
+        ask = "Ask: " + money.format(askMarketPrice) + " size: "
+            + sellOrders.peek().getNumShares();
+      }
     }
-
+    
+    //Market for bidding 
+    String bid = "Bid: none";
     if (!buyOrders.isEmpty())
     {
-      bid = "Bid: " + money.format(latestPrice) + " size: "
+      if(buyOrders.peek().isMarket())
+        bid = "Bid: market size: " + buyOrders.peek().getNumShares();
+      else
+      {
+        bid = "Bid: " + money.format(bidMarketPrice) + " size: "
           + buyOrders.peek().getNumShares();
+      }
     }
 
     return quote + ask + " " + bid;
   }
 
+  /**
+   * Adds the given order to the proper queue (depending on if it is a buy or a sell),
+   * sends a formatted message to trader that placed the order, and executes the orders. 
+   */
   public void placeOrder(TradeOrder order)
   {
     String str = "New order: ";
@@ -70,11 +102,15 @@ public class Stock
     {
       buyOrders.add(order);
       str += "Buy ";
+      if(!buyOrders.peek().isMarket())
+        bidMarketPrice = buyOrders.peek().getPrice();
     }
     else
     {
       sellOrders.add(order);
       str += "Sell ";
+      if(!sellOrders.peek().isMarket())
+        askMarketPrice = sellOrders.peek().getPrice();
     }
 
     str += order.getSymbol() + " (" + this.companyName + ")" + "\n"
@@ -89,6 +125,12 @@ public class Stock
     executeOrders();
   }
 
+  /**
+   * Executes all possible orders based on the priority of the buy and sell queues. 
+   * Updates orders if only partially executed and updates the loPrice, hiPrice, and volume
+   * fields as appropriate for the sales of a stock. Sends a message to the traders involved
+   * in the exchange detailing the transaction. 
+   */
   public void executeOrders()
   {
     // Base case for recursive method, if there are no sell or buy offers nothing can be exchanged
@@ -101,14 +143,23 @@ public class Stock
     Trader seller = sell.getTrader();
 
     // Calculate the price
-    double price;
-    if (buy.isMarket() && sell.isMarket())
-      price = latestPrice; // use latest market price.
-    else if (buy.getPrice() >= sell.getPrice())
-      price = buy.getPrice();
+    if(buy.isMarket() && sell.isMarket())
+    {
+      askMarketPrice = latestSalePrice;
+      bidMarketPrice = latestSalePrice;
+    }
+    else if (buy.isMarket())
+      latestSalePrice = askMarketPrice;
+    else if (sell.isMarket())
+      latestSalePrice = bidMarketPrice;
     else
-      return; // sell price > buy price, does nothing
-
+    {
+      if(buy.getPrice() >= sell.getPrice())
+        latestSalePrice = sell.getPrice();
+      else // sell price > buy price, does nothing
+        return;
+    }
+    
     // Calculate the number of shares being exchanged
     int sharesExchanged;
 
@@ -117,32 +168,40 @@ public class Stock
     else
       sharesExchanged = sell.getNumShares();
     
+    // Update the number of shares the buyer is willing to buy and the seller is willing to sell
     buy.subtractShares(sharesExchanged);
     sell.subtractShares(sharesExchanged);
 
     if (buy.getNumShares() == 0) // The buyer has bought all the stocks they are willing to buy
-      buyOrders.remove(buy);
+    {
+      buyOrders.remove(buy); // remove order
+      if(buyOrders.peek() != null && !buyOrders.peek().isMarket()) // update market
+        bidMarketPrice = buyOrders.peek().getPrice();
+    }
 
     if (sell.getNumShares() == 0) // The seller has sold all the stocks they are willing to sell
-      sellOrders.remove(sell);
+    {
+      sellOrders.remove(sell); // remove order
+      if(sellOrders.peek() != null && !sellOrders.peek().isMarket()) // update market
+        askMarketPrice = sellOrders.peek().getPrice();
+    }
 
-    // Update the lowest and highest prices, market price, and volume
-    if (price < lowPrice)
-      lowPrice = price;
+    // Update the lowest and highest prices, and volume
+    if (latestSalePrice < loPrice)
+      loPrice = latestSalePrice;
 
-    if (price > highPrice)
-      highPrice = price;
+    if (latestSalePrice > hiPrice)
+      hiPrice = latestSalePrice;
 
     volume += sharesExchanged;
-    latestPrice = price;
 
     // Send a message to the two traders involved in the exchange
     buyer.receiveMessages("You bought: " + sharesExchanged + " " + stockSymbol + " at "
-        + money.format(price) + " amt "
-        + money.format(sharesExchanged * price));
+        + money.format(latestSalePrice) + " amt "
+        + money.format(sharesExchanged * latestSalePrice));
     seller.receiveMessages("You sold: " + sharesExchanged + " " + stockSymbol + " at "
-        + money.format(price) + " amt "
-        + money.format(sharesExchanged * price));
+        + money.format(latestSalePrice) + " amt "
+        + money.format(sharesExchanged * latestSalePrice));
 
     // Keep recursively calling this method
     executeOrders();
