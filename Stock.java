@@ -66,7 +66,7 @@ public class Stock
   {
     String str = "New order: ";
 
-    if (order.isBuying())
+    if (order.isBuy())
     {
       buyOrders.add(order);
       str += "Buy ";
@@ -77,10 +77,10 @@ public class Stock
       str += "Sell ";
     }
 
-    str += order.getStockSymbol() + " (" + this.companyName + ")" + "\n"
+    str += order.getSymbol() + " (" + this.companyName + ")" + "\n"
         + order.getNumShares() + " shares at ";
 
-    if (!order.isMarketPrice())
+    if (!order.isMarket())
       str += money.format(order.getPrice());
     else
       str += "market";
@@ -102,7 +102,7 @@ public class Stock
 
     // Calculate the price
     double price;
-    if (buy.isMarketPrice() && sell.isMarketPrice())
+    if (buy.isMarket() && sell.isMarket())
       price = latestPrice; // use latest market price.
     else if (buy.getPrice() >= sell.getPrice())
       price = buy.getPrice();
