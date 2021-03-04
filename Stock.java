@@ -85,7 +85,7 @@ public class Stock
     else
       str += "market";
 
-    order.getTrader().receiveMessages(str);
+    order.getTrader().getMail(str);
     executeOrders();
   }
 
@@ -102,22 +102,17 @@ public class Stock
 
     // Calculate the price
     double price;
-
-    if (!(buy.isMarketPrice() || sell.isMarketPrice()) && buy.getPrice() >= sell.getPrice())
-      price = sell.getPrice();
-    else if (!buy.isMarketPrice() && sell.isMarketPrice())
-      price = buy.getPrice(); // use buyer's price
-    else if (buy.isMarketPrice() && !sell.isMarketPrice())
-      price = sell.getPrice(); // seller's price
-    else if (buy.isMarketPrice() && sell.isMarketPrice())
+    if (buy.isMarketPrice() && sell.isMarketPrice())
       price = latestPrice; // use latest market price.
+    else if (buy.getPrice() >= sell.getPrice())
+      price = buy.getPrice();
     else
       return; // sell price > buy price, does nothing
 
     // Calculate the number of shares being exchanged
     int sharesExchanged;
 
-    if (buy.getNumShares() <= sell.getNumShares())
+    if (sell.getNumShares() >= buy.getNumShares())
       sharesExchanged = buy.getNumShares();
     else
       sharesExchanged = sell.getNumShares();
@@ -142,10 +137,10 @@ public class Stock
     latestPrice = price;
 
     // Send a message to the two traders involved in the exchange
-    buyer.receiveMessages("You bought: " + sharesExchanged + " " + stockSymbol + " at "
+    buyer.getMail("You bought: " + sharesExchanged + " " + stockSymbol + " at "
         + money.format(price) + " amt "
         + money.format(sharesExchanged * price));
-    seller.receiveMessages("You sold: " + sharesExchanged + " " + stockSymbol + " at "
+    seller.getMail("You sold: " + sharesExchanged + " " + stockSymbol + " at "
         + money.format(price) + " amt "
         + money.format(sharesExchanged * price));
 
