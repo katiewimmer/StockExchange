@@ -35,12 +35,19 @@ public class TradeOrder
     return symbol;
   }
   
-  public boolean isBuy() // if true, the trader is buying, if false, the trader is selling
+  /**
+  * Returns true if the trader is buying
+  * Returns false is the trader is selling
+  */
+  public boolean isBuy() 
   {
     return buyOrder;
   }
-  
-  public boolean isMarket()// if true, the price is the market price, if false, the price is the limit price
+  /**
+  * Returns trure if the price is the market price
+  * Returns false if the price is the limit price
+  */
+  public boolean isMarket()
   {
     return marketOrder;
   }
