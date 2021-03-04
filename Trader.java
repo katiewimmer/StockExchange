@@ -67,9 +67,9 @@ public class Trader implements Comparable<Trader>
      /** Receives mail
      * @param mail
      */
-    public void getMail(String mail)
+    public void receiveMessages(String msg)
     {
-        mailbox.add(mail);
+        mailbox.add(msg);
         if(window != null)
         {
             while(!mailbox.isEmpty()) 
@@ -96,6 +96,8 @@ public class Trader implements Comparable<Trader>
             window.showMessage(mailbox.remove());
         }
     }
+
+    @Override
     public int compareTo(Trader other)
     {
     	return this.getName().compareToIgnoreCase(other.getName());

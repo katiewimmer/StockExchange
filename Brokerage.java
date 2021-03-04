@@ -36,7 +36,7 @@ public class Brokerage implements Login
      */
     public void getQuote(String symbol, Trader trader) 
     {
-        trader.getMail(stockExchange.processQuote(symbol));
+        trader.receiveMessages(stockExchange.processQuote(symbol));
     }
 
     /**
@@ -91,7 +91,7 @@ public class Brokerage implements Login
             return -3;
         trader.openTraderWindow();
         if(!trader.hasMail())
-            trader.getMail("Welcome to SafeTrade!");
+            trader.receiveMessages("Welcome to SafeTrade!");
         loggedInTraders.add(trader);
         return 0;
     }
