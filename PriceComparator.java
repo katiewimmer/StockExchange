@@ -40,7 +40,7 @@ public class PriceComparator implements Comparator<TradeOrder>
     if(ascending)
       return (int) (one.getPrice() - two.getPrice() * 100); //returns in ascending
     else 
-      return (int) (-one.getPrice() + (two.getPrice() * 100)); //returns in descending
+      return (int) (-one.getPrice() + two.getPrice() * 100); //returns in descending
   }
   
   
