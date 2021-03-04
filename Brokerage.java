@@ -4,7 +4,9 @@
  * Receives quote requests and trade orders from traders and
  * relays them to StockExchange.
  * 
- * @author: Ryan Mai, Sima Shmuylovich, Katie Wimmer
+ * CSC630 Period 8 Ms. Litvin
+ * Date: March 4, 2021
+ * Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
  */
 
 import java.util.*;
