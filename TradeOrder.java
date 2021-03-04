@@ -1,19 +1,19 @@
 public class TradeOrder
 {
   private Trader trader;
-  private String stockSymbol;
-  private boolean buying, marketPrice;
+  private String symbol;
+  private boolean buyOrder, marketOrder;
   private int numShares;
   private double price;
   
-  public TradeOrder(Trader t, String s, boolean b, boolean m, int n, double p)
+  public TradeOrder(Trader trader, String symbol, boolean buyOrder, boolean marketOrder, int numShares, double price)
   {
-    trader = t;
-    stockSymbol = s;
-    buying = b;
-    marketPrice = m;
-    numShares = n;
-    price = p;
+    this.trader = trader;
+    this.symbol = symbol;
+    this.buyOrder = buyOrder;
+    this.marketOrder = marketOrder;
+    this.numShares = numShares;
+    this.price = price;
   }
   
   public Trader getTrader()
@@ -21,21 +21,21 @@ public class TradeOrder
     return trader;
   }
   
-  public String getStockSymbol()
+  public String getSymbol()
   {
-    return stockSymbol;
+    return symbol;
   }
   
   //if false, is selling
-  public boolean isBuying()
+  public boolean isBuy()
   {
-    return buying;
+    return buyOrder;
   }
   
   //if false, is limit price
-  public boolean isMarketPrice()
+  public boolean isMarket()
   {
-    return marketPrice;
+    return marketOrder;
   }
   
   public int getNumShares()
