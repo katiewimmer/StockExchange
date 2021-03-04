@@ -3,7 +3,11 @@ Provides a no-args constructor that sets ascending to true and a constructor
 with one parameter that dictates if ascending is true or false
 Dictates the process of comparing two trade orders depending on
 whether ascending is true or false
-Authors: KW, SS, RM
+
+CSC630 Period 8 Ms. Litvin
+Date: March 4, 2021
+Authors: Katie Wimmer, Sima Shmuylovich, Ryan Mai
+
 */
 import java.util.Comparator;
 
